@@ -44,7 +44,7 @@ function Layout({ title, children }) {
                                     </span>
                                 )}
                             </Link>
-                            <Link href="" className='p-2'>
+                            <Link href='/login' className='p-2'>
                                 Login
                             </Link>
                         </div>
