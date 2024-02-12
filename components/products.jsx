@@ -2,6 +2,7 @@ import Link from 'next/link'
 import React, { useContext } from 'react'
 import { Store } from '../utils/Store'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
 
 function ProductItem({ product }) {
     const { state , dispatch} = useContext(Store)
@@ -13,11 +14,12 @@ function ProductItem({ product }) {
         const quantity = existItem ? existItem.quantity + 1 : 1
 
         if (product.countInStock < quantity) {
-        alert('Sorry. Product is out of stock')
+        toast.error('Sorry. Product is out of stock')
         return;
         }
 
         dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } })
+        toast.success('Product added to the cart')
         router.push('/cart')
     }
 

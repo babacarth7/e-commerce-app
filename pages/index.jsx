@@ -1,12 +1,13 @@
 import Layout from '../components/layout'
 import ProductItem from '../components/products'
-import data from '../utils/data'
+import Product from '../models/Product'
+import db from '../utils/db'
 
-function Index() {
+function Index({products}) {
     return(
         <Layout title='Home Page'>
             <div className='grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4'>
-                {data.products.map((product) => (
+                {products.map((product) => (
                     <ProductItem 
                         product={product} 
                         key={product.slug}>
@@ -16,5 +17,16 @@ function Index() {
         </Layout>
     )
 }
+
+
+export async function getServerSideProps() {
+    await db.connect();
+    const products = await Product.find().lean();
+    return {
+      props: {
+        products: products.map(db.convertDocToObj),
+      },
+    };
+  }
 
 export default Index
